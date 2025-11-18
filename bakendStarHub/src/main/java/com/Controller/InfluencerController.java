@@ -21,15 +21,13 @@ public class InfluencerController {
     @Autowired
     private InfluencerService service;
 
-       @GetMapping("/")
-    public String home() {
-        return "Backend is running successfully!";
-    }
+  
 
     @PostMapping("/register")
     public Influencer registerInfluencer(@RequestBody Influencer inf) {
         return service.register(inf);
     }
 }
+
 
 
