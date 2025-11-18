@@ -6,8 +6,8 @@ package com.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.service.InfluencerService;
-import com.entity.Influencer;
+import com.Service.InfluencerService;
+import com.Entity.Influencer;
 
 
 
@@ -26,6 +26,7 @@ public class InfluencerController {
         return service.register(inf);
     }
 }
+
 
 
 
