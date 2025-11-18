@@ -15,19 +15,22 @@ import com.Service.InfluencerService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/influencer")
 public class InfluencerController {
 
     @Autowired
     private InfluencerService service;
 
-  
-
-    @PostMapping("/register")
+  @GetMapping("/")
+    public String home()
+    {
+      return "it is working";}
+        
+    @PostMapping("Influencer/register")
     public Influencer registerInfluencer(@RequestBody Influencer inf) {
         return service.register(inf);
     }
 }
+
 
 
 
