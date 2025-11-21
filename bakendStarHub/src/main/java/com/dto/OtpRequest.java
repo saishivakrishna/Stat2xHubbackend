@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.dto;
 
 public class OtpRequest {
     private String phone;
@@ -11,3 +11,4 @@ public class OtpRequest {
         this.phone = phone;
     }
 }
+
