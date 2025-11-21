@@ -1,6 +1,6 @@
 package com.Service;
 
-import com.example.otp.model.OtpStore;
+import com.Entity.OtpStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
