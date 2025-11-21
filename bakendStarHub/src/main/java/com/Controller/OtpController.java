@@ -1,38 +1,42 @@
 package com.Controller;
 
-import com.Entity.OtpRequest;
-import com.Service.OtpService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/otp")
 @CrossOrigin("*")
 public class OtpController {
 
-    @Autowired
-    private OtpService otpService;
+    private final String API_KEY = "bc5182bd-c6fe-11f0-a6b2-0200cd936042";
 
-    // 🔹 Send OTP
     @PostMapping("/send")
-    public ResponseEntity<String> sendOtp(@RequestBody OtpRequest req) {
-        String response = otpService.sendOtp(req.getPhone());
-        return ResponseEntity.ok("OTP sent successfully! " + response);
+    public ResponseEntity<String> sendOtp(@RequestBody Map<String, String> req) {
+
+        String phone = req.get("phone");
+
+        String url = "https://2factor.in/API/V1/" + API_KEY + "/SMS/" + phone + "/AUTOGEN";
+
+        RestTemplate rest = new RestTemplate();
+        String response = rest.getForObject(url, String.class);
+
+        return ResponseEntity.ok(response);
     }
 
-    // 🔹 Verify OTP
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyOtp(
-            @RequestParam String phone,
-            @RequestParam String otp) {
+    public ResponseEntity<String> verifyOtp(@RequestParam String sessionId,
+                                            @RequestParam String otp) {
 
-        boolean valid = otpService.verifyOtp(phone, otp);
+        String url = "https://2factor.in/API/V1/" + API_KEY + "/SMS/VERIFY/" + sessionId + "/" + otp;
 
-        if (valid) {
-            return ResponseEntity.ok("OTP Verified Successfully!");
-        } else {
-            return ResponseEntity.badRequest().body("Invalid or Expired OTP");
-        }
+        RestTemplate rest = new RestTemplate();
+        String response = rest.getForObject(url, String.class);
+
+        return ResponseEntity.ok(response);
     }
 }
+
