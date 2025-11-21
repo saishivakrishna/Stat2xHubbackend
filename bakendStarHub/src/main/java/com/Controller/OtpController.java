@@ -19,7 +19,8 @@ public class OtpController {
 
         String phone = req.get("phone");
 
-        String url = "https://2factor.in/API/V1/" + API_KEY + "/SMS/" + phone + "/AUTOGEN";
+       String url = "https://2factor.in/API/V1/" + API_KEY + "/SMS/" + phone + "/AUTOGEN/OTP1";
+
 
         RestTemplate rest = new RestTemplate();
         String response = rest.getForObject(url, String.class);
