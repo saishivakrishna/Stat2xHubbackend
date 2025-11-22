@@ -26,6 +26,14 @@ public class Influencer {
     private String zipcode;
     private String platform;
     private String category;
+	private String referrals;
+
+	public String getReferrals() {
+		return referrals;
+	}
+	public void setReferrals(String referrals) {
+		this.referrals = referrals;
+	}
 
 	public String getReferralCode() {
 		return referralCode;
@@ -101,7 +109,7 @@ public class Influencer {
 	}
 	public Influencer( String referralCode, String name, String phone, String email, int followers,
 			String instagram, String youtube, String state, String district, String zipcode, String platform,
-			String category) {
+			String category,String referrals) {
 		super();
 		
 		this.referralCode = referralCode;
@@ -116,16 +124,18 @@ public class Influencer {
 		this.zipcode = zipcode;
 		this.platform = platform;
 		this.category = category;
+		this.referrals=referrals;
 	}
 	@Override
 	public String toString() {
 		return "Influencer [id=" + id + ", referralCode=" + referralCode + ", name=" + name + ", phone=" + phone
 				+ ", email=" + email + ", followers=" + followers + ", instagram=" + instagram + ", youtube=" + youtube
 				+ ", state=" + state + ", district=" + district + ", zipcode=" + zipcode + ", platform=" + platform
-				+ ", category=" + category + "]";
+				+ ", category=" + category + "referrals=" + referrals + "]";
 	}
     
     
     
     
 }
+
