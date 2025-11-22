@@ -12,7 +12,7 @@ import com.Repository.BrandRepo;
 public class BrandController {
 
     @Autowired
-    private BrandRepository repo;
+    private BrandRepo repo;
 
     @PostMapping("/register")
     public Brand registerBrand(@RequestBody Brand brand) {
