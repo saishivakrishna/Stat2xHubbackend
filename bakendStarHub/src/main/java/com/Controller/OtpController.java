@@ -1,43 +1,43 @@
 package com.Controller;
 
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
+import com.app.service.SmsService;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/otp")
 @CrossOrigin("*")
 public class OtpController {
 
-    private final String API_KEY = "bc5182bd-c6fe-11f0-a6b2-0200cd936042";
+    private final SmsService smsService;
+    private final Map<String, String> otpStore = new HashMap<>();
+
+    public OtpController(SmsService smsService) {
+        this.smsService = smsService;
+    }
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendOtp(@RequestBody Map<String, String> req) {
-
+    public String sendOtp(@RequestBody Map<String, String> req) {
         String phone = req.get("phone");
+        String otp = String.valueOf(new Random().nextInt(900000) + 100000);
 
-       String url = "https://2factor.in/API/V1/" + API_KEY + "/SMS/" + phone + "/AUTOGEN/OTP1";
+        smsService.sendOtp(phone,  "🟦 Star2XHub\n" +
+            "Welcome to Star2XHub!\n" +
+            "Your OTP is: " + otp + "\n" +
+            "Thank you for registering.");
+        otpStore.put(phone, otp);
 
-
-        RestTemplate rest = new RestTemplate();
-        String response = rest.getForObject(url, String.class);
-
-        return ResponseEntity.ok(response);
+        return "OTP sent to " + phone;
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyOtp(@RequestParam String sessionId,
-                                            @RequestParam String otp) {
-
-        String url = "https://2factor.in/API/V1/" + API_KEY + "/SMS/VERIFY/" + sessionId + "/" + otp;
-
-        RestTemplate rest = new RestTemplate();
-        String response = rest.getForObject(url, String.class);
-
-        return ResponseEntity.ok(response);
+    public String verifyOtp(@RequestParam String phone, @RequestParam String otp) {
+        if (otp.equals(otpStore.get(phone))) {
+            return "OTP Verified Successfully!";
+        }
+        return "Invalid OTP";
     }
 }
 
