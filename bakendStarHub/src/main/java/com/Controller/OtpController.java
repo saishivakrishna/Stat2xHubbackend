@@ -1,43 +1,28 @@
 package com.Controller;
 
-
-
-import com.Service.SmsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import com.Service.OtpService;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/otp")
 @CrossOrigin("*")
 public class OtpController {
 
-    private final SmsService smsService;
-    private final Map<String, String> otpStore = new HashMap<>();
+    @Autowired
+    private OtpService otpService;
 
-    public OtpController(SmsService smsService) {
-        this.smsService = smsService;
+    @GetMapping("/send")
+    public Map<String, Object> sendOtp(@RequestParam String phone) {
+        String sessionId = otpService.sendOtp(phone);
+        return Map.of("status", "OTP_SENT", "sessionId", sessionId);
     }
 
-    @PostMapping("/send")
-    public String sendOtp(@RequestBody Map<String, String> req) {
-        String phone = req.get("phone");
-        String otp = String.valueOf(new Random().nextInt(900000) + 100000);
+    @GetMapping("/verify")
+    public Map<String, Object> verifyOtp(@RequestParam String sessionId, @RequestParam String otp) {
+        boolean isValid = otpService.verifyOtp(sessionId, otp);
 
-        smsService.sendOtp(phone,  "🟦 Star2XHub\n" +
-            "Welcome to Star2XHub!\n" +
-            "Your OTP is: " + otp + "\n" +
-            "Thank you for registering.");
-        otpStore.put(phone, otp);
-
-        return "OTP sent to " + phone;
-    }
-
-    @PostMapping("/verify")
-    public String verifyOtp(@RequestParam String phone, @RequestParam String otp) {
-        if (otp.equals(otpStore.get(phone))) {
-            return "OTP Verified Successfully!";
-        }
-        return "Invalid OTP";
+        return Map.of("status", isValid ? "VALID" : "INVALID");
     }
 }
-
