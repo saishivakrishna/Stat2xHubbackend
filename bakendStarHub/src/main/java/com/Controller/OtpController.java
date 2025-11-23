@@ -2,7 +2,7 @@ package com.Controller;
 
 
 
-import com.app.service.SmsService;
+import com.Service.SmsService;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
