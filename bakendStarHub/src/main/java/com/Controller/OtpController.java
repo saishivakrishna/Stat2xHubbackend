@@ -13,13 +13,13 @@ public class OtpController {
     @Autowired
     private OtpService otpService;
 
-    @GetMapping("/send")
+    @PostMapping("/send")
     public Map<String, Object> sendOtp(@RequestParam String phone) {
         String sessionId = otpService.sendOtp(phone);
         return Map.of("status", "OTP_SENT", "sessionId", sessionId);
     }
 
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     public Map<String, Object> verifyOtp(@RequestParam String sessionId, @RequestParam String otp) {
         boolean isValid = otpService.verifyOtp(sessionId, otp);
 
