@@ -4,7 +4,8 @@ WORKDIR /app
 
 # Copy pom.xml and download dependencies first (cache layer)
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN mvn -e -X dependency:go-offline
+
 
 # Copy project source
 COPY src ./src
@@ -25,3 +26,4 @@ EXPOSE 8080
 
 # Run the Spring Boot App
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
