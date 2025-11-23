@@ -7,9 +7,9 @@ import com.twilio.rest.api.v2010.account.Message;
 @Service
 public class SmsService {
 
-    private final String ACCOUNT_SID = "ACb154e313ca430673dfe1fe9a66fe6987";
-    private final String AUTH_TOKEN = "0df134ca59489c710ce33c792482542d";
-    private final String TWILIO_NUMBER = "+13312002813";   // Twilio number
+private final String ACCOUNT_SID = System.getenv("TWILIO_ACCOUNT_SID");
+    private final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
+    private final String TWILIO_NUMBER = System.getenv("TWILIO_PHONE_NUMBER");
 
     public SmsService() {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
