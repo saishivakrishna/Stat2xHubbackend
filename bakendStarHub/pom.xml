@@ -56,8 +56,9 @@
 		<dependency>
     <groupId>com.twilio.sdk</groupId>
     <artifactId>twilio</artifactId>
-    <version>8.42.0</version>
+    <version>9.4.1</version>
 </dependency>
+
 
 
 		<dependency>
