@@ -1,14 +1,21 @@
+# ---------- BUILD STAGE ----------
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
-# Copy whole project
+# Copy only pom.xml first for caching
+COPY pom.xml .
+
+# Download all dependencies
+RUN mvn dependency:go-offline
+
+# Copy full project
 COPY . .
 
-# Build project
+# Build Jar
 RUN mvn clean package -DskipTests
 
-# ---- RUNTIME IMAGE ----
+# ---------- RUNTIME STAGE ----------
 FROM eclipse-temurin:21-jre
 
 WORKDIR /app
